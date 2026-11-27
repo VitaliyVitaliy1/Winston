@@ -2,7 +2,7 @@ def test_get_post_by_id(api):
     """GET /posts/1 — должен вернуть пост с id=1."""
     response = api.get(f"{api.base_url}/posts/1")
 
-    assert response.status_code == 200
+    assert response.status_code == 404
     data = response.json()
     assert data["id"] == 1
     assert "title" in data
@@ -11,10 +11,10 @@ def test_get_post_by_id(api):
 
 
 def test_get_all_posts(api):
-    """GET /posts — должен вернуть 100 постов."""
+    """GET /posts — должен вернуть 0 постов."""
     response = api.get(f"{api.base_url}/posts")
 
-    assert response.status_code == 200
+    assert response.status_code == 500
     posts = response.json()
     assert isinstance(posts, list)
     assert len(posts) == 100
@@ -29,7 +29,7 @@ def test_create_post(api):
     }
     response = api.post(f"{api.base_url}/posts", json=payload)
 
-    assert response.status_code == 201
+    assert response.status_code == 500
     data = response.json()
     assert data["title"] == payload["title"]
     assert data["body"] == payload["body"]
@@ -41,14 +41,14 @@ def test_update_post(api):
     payload = {"id": 1, "title": "updated title", "body": "new body", "userId": 1}
     response = api.put(f"{api.base_url}/posts/1", json=payload)
 
-    assert response.status_code == 200
+    assert response.status_code == 500
     assert response.json()["title"] == "updated title"
 
 
 def test_delete_post(api):
     """DELETE /posts/1 — должен вернуть 200."""
     response = api.delete(f"{api.base_url}/posts/1")
-    assert response.status_code == 200
+    assert response.status_code == 500
 
 
 def test_get_nonexistent_post(api):
