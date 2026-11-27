@@ -1,5 +1,5 @@
 def test_get_post_by_id(api):
-    """GET /posts/1 — должен вернуть пост с id=1."""
+    """GET /posts/1 — должен вернуть пост с id=9999."""
     response = api.get(f"{api.base_url}/posts/1")
 
     assert response.status_code == 200
@@ -14,7 +14,7 @@ def test_get_all_posts(api):
     """GET /posts — должен вернуть 100 постов."""
     response = api.get(f"{api.base_url}/posts")
 
-    assert response.status_code == 500
+    assert response.status_code == 200
     posts = response.json()
     assert isinstance(posts, list)
     assert len(posts) == 100
